@@ -8,7 +8,7 @@ from bot.helper.ext_utils.bot_utils import get_readable_file_size
 
 
 def cloneNode(update, context):
-    args = update.message.reply_to_message.text.split(" ", maxsplit=1)
+    args = update.message.text.split(" ", maxsplit=1)
     if len(args) > 1:
         link = args[1]
         gd = GoogleDriveHelper()

@@ -12,7 +12,7 @@ def authorize(update, context):
     reply_message = None
     message_ = None
     reply_message = update.message.reply_to_message
-    message_ = update.message.reply_to_message.text.split(' ')
+    message_ = update.message.text.split(' ')
     if len(message_) == 2:
         user_id = int(message_[1])
         if user_id not in AUTHORIZED_CHATS:
@@ -60,7 +60,7 @@ def unauthorize(update, context):
     reply_message = None
     message_ = None
     reply_message = update.message.reply_to_message
-    message_ = update.message.reply_to_message.text.split(' ')
+    message_ = update.message.text.split(' ')
     if len(message_) == 2:
         user_id = int(message_[1])
         if user_id in AUTHORIZED_CHATS:
@@ -105,7 +105,7 @@ def addSudo(update, context):
     reply_message = None
     message_ = None
     reply_message = update.message.reply_to_message
-    message_ = update.message.reply_to_message.text.split(' ')
+    message_ = update.message.text.split(' ')
     if len(message_) == 2:
         user_id = int(message_[1])
         if user_id not in SUDO_USERS:
@@ -141,7 +141,7 @@ def removeSudo(update, context):
     reply_message = None
     message_ = None
     reply_message = update.message.reply_to_message
-    message_ = update.message.reply_to_message.text.split(' ') 
+    message_ = update.message.text.split(' ') 
     if len(message_) == 2:
         user_id = int(message_[1])
         if user_id in SUDO_USERS:

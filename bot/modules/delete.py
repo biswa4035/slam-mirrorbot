@@ -9,7 +9,7 @@ from bot.helper.mirror_utils.upload_utils import gdriveTools
 
 
 def deletefile(update, context):
-	msg_args = update.message.reply_to_message.text.split(None, 1)
+	msg_args = update.message.text.split(None, 1)
 	msg = ''
 	try:
 		link = msg_args[1]

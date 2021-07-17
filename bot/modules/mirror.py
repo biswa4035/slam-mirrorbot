@@ -225,7 +225,7 @@ class MirrorListener(listeners.MirrorListeners):
             update_all_messages()
 
 def _mirror(bot, update, isTar=False, extract=False):
-    mesg = update.message.reply_to_message.text.split('\n')
+    mesg = update.message.text.split('\n')
     message_args = mesg[0].split(' ')
     name_args = mesg[0].split('|')
     try:
@@ -251,7 +251,7 @@ def _mirror(bot, update, isTar=False, extract=False):
     if ussr != '' and pssw != '':
         link = link.split("://", maxsplit=1)
         link = f'{link[0]}://{ussr}:{pssw}@{link[1]}'
-    pswd = re.search('(?<=pswd: )(.*)', update.message.reply_to_message.text)
+    pswd = re.search('(?<=pswd: )(.*)', update.message.text)
     if pswd is not None:
       pswd = pswd.groups()
       pswd = " ".join(pswd)

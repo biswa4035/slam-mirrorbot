@@ -9,7 +9,7 @@ from bot.helper.telegram_helper.bot_commands import BotCommands
 
 def list_drive(update, context):
     try:
-        search = update.message.reply_to_message.text.split(' ',maxsplit=1)[1]
+        search = update.message.text.split(' ',maxsplit=1)[1]
         LOGGER.info(f"Searching: {search}")
         reply = sendMessage('Searching..... Please wait!', context.bot, update)
         gdrive = GoogleDriveHelper(None)
