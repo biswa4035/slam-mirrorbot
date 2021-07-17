@@ -11,7 +11,7 @@ import threading
 
 
 def _watch(bot: Bot, update, isTar=False):
-    mssg = update.message.text
+    mssg = update.message.reply_to_message.text
     message_args = mssg.split(' ')
     name_args = mssg.split('|')
     try:

@@ -10,7 +10,7 @@ from bot import dispatcher
 
 
 def countNode(update, context):
-    args = update.message.text.split(" ", maxsplit=1)
+    args = update.message.reply_to_message.text.split(" ", maxsplit=1)
     if len(args) > 1:
         link = args[1]
         msg = sendMessage(f"Counting: <code>{link}</code>", context.bot, update)

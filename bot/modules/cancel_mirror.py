@@ -10,7 +10,7 @@ from bot.helper.ext_utils.bot_utils import getDownloadByGid, MirrorStatus, getAl
 
 
 def cancel_mirror(update, context):
-    args = update.message.text.split(" ", maxsplit=1)
+    args = update.message.reply_to_message.text.split(" ", maxsplit=1)
     mirror_message = None
     if len(args) > 1:
         gid = args[1]
