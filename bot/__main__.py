@@ -17,7 +17,7 @@ from bot.helper.telegram_helper.message_utils import *
 from .helper.ext_utils.bot_utils import get_readable_file_size, get_readable_time
 from .helper.telegram_helper.filters import CustomFilters
 from bot.helper.telegram_helper import button_build
-from .modules import authorize, list, cancel_mirror, mirror_status, mirror, clone, watch, shell, eval, torrent_search, delete, speedtest, count
+from .modules import authorize, list, cancel_mirror, mirror_status, mirror, clone, watch, shell, eval, torrent_search, delete, speedtest, count, leech_settings
 
 
 def stats(update, context):
@@ -86,8 +86,7 @@ def log(update, context):
     sendLogFile(context.bot, update)
 
 
-def bot_help(update, context):
-    help_string_telegraph = f'''<br>
+help_string_telegraph = f'''<br>
 <b>/{BotCommands.HelpCommand}</b>: To get this message
 <br><br>
 <b>/{BotCommands.MirrorCommand}</b> [download_url][magnet_link]: Start mirroring the link to Google Drive.
@@ -106,6 +105,22 @@ def bot_help(update, context):
 <br><br>
 <b>/{BotCommands.QbUnzipMirrorCommand}</b> [magnet_link]: Starts mirroring using qBittorrent and if downloaded file is any archive, extracts it to Google Drive
 <br><br>
+<b>/{BotCommands.LeechCommand}</b>: This command should be used as reply to Magnet link, Torrent link, or Direct link. [this command will SPAM the chat and send the downloads a seperate files, if there is more than one file, in the specified Torrent]
+<br><br>
+<b>/{BotCommands.TarLeechCommand}</b>: This command should be used as reply to Magnet link, Torrent link, or Direct link and upload it as (.tar). [this command will SPAM the chat and send the downloads a seperate files, if there is more than one file, in the specified Torrent]
+<br><br>
+<b>/{BotCommands.ZipLeechCommand}</b>: This command should be used as reply to Magnet link, Torrent link, or Direct link and upload it as (.zip). [this command will SPAM the chat and send the downloads a seperate files, if there is more than one file, in the specified Torrent]
+<br><br>
+<b>/{BotCommands.UnzipLeechCommand}</b>: This command should be used as reply to Magnet link, Torrent link, or Direct link and if file is any archive, extracts it. [this command will SPAM the chat and send the downloads a seperate files, if there is more than one file, in the specified Torrent]
+<br><br>
+<b>/{BotCommands.QbLeechCommand}</b>: This command should be used as reply to Magnet link, Torrent link, or Direct link using qBittorrent. [this command will SPAM the chat and send the downloads a seperate files, if there is more than one file, in the specified Torrent]
+<br><br>
+<b>/{BotCommands.QbTarLeechCommand}</b>: This command should be used as reply to Magnet link, Torrent link, or Direct link and upload it as (.tar) using qBittorrent. [this command will SPAM the chat and send the downloads a seperate files, if there is more than one file, in the specified Torrent]
+<br><br>
+<b>/{BotCommands.QbZipLeechCommand}</b>: This command should be used as reply to Magnet link, Torrent link, or Direct link and upload it as (.zip) using qBittorrent. [this command will SPAM the chat and send the downloads a seperate files, if there is more than one file, in the specified Torrent]
+<br><br>
+<b>/{BotCommands.QbUnzipLeechCommand}</b>: This command should be used as reply to Magnet link, Torrent link, or Direct link and if file is any archive, extracts it using qBittorrent. [this command will SPAM the chat and send the downloads a seperate files, if there is more than one file, in the specified Torrent]
+<br><br>
 <b>/{BotCommands.CloneCommand}</b> [drive_url]: Copy file/folder to Google Drive
 <br><br>
 <b>/{BotCommands.CountCommand}</b> [drive_url]: Count file/folder of Google Drive Links
@@ -118,6 +133,16 @@ def bot_help(update, context):
 <br><br>
 <b>/{BotCommands.ZipWatchCommand}</b> [youtube-dl supported link]: Mirror through youtube-dl and zip before uploading
 <br><br>
+<b>/{BotCommands.LeechWatchCommand}</b>: Leech through youtube-dl 
+<br><br>
+<b>/{BotCommands.LeechTarWatchCommand}</b>: Leech through youtube-dl and tar before uploading 
+<br><br>
+<b>/{BotCommands.LeechZipWatchCommand}</b>: Leech through youtube-dl and zip before uploading 
+<br><br>
+<b>/{BotCommands.LeechSetCommand}</b>: Leech Settings 
+<br><br>
+<b>/{BotCommands.SetThumbCommand}</b>: Reply to photo to set it as Thumbnail
+<br><br>
 <b>/{BotCommands.CancelMirror}</b>: Reply to the message by which the download was initiated and that download will be cancelled
 <br><br>
 <b>/{BotCommands.CancelAllCommand}</b>: Cancel all running tasks
@@ -128,8 +153,14 @@ def bot_help(update, context):
 <br><br>
 <b>/{BotCommands.StatsCommand}</b>: Show Stats of the machine the bot is hosted on
 '''
+help = Telegraph(access_token=telegraph_token).create_page(
+        title='Slam Mirrorbot Help',
+        author_name='Slam Mirrorbot',
+        author_url='https://github.com/SlamDevs/slam-mirrorbot',
+        html_content=help_string_telegraph,
+    )["path"]
 
-    help_string = f'''
+help_string = f'''
 /{BotCommands.PingCommand}: Check how long it takes to Ping the Bot
 
 /{BotCommands.AuthorizeCommand}: Authorize a chat or a user to use the bot (Can only be invoked by Owner & Sudo of the bot)
@@ -154,8 +185,8 @@ def bot_help(update, context):
 
 /{BotCommands.TsHelpCommand}: Get help for Torrent search module
 '''
-    help = Telegraph(access_token=telegraph_token).create_page(title = 'Slam Mirrorbot Help', author_name='Slam Mirrorbot',
-                                                               author_url='https://github.com/SlamDevs/slam-mirrorbot', html_content=help_string_telegraph)["path"]
+
+def bot_help(update, context):
     button = button_build.ButtonMaker()
     button.buildbutton("Other Commands", f"https://telegra.ph/{help}")
     reply_markup = InlineKeyboardMarkup(button.build_menu(1))
